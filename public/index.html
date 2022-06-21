@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr-FR">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Socket io chat</title>
+	<meta name="author" content="Gaëtan" />
+	<meta name="description" content="" />
+	<meta name="keywords" content="" />
+	<meta name="Content-Language" content="fr" />
+	<meta name="Subject" content="" />
+	<meta name="Copyright" content="copyright Gaëtan LANGLET" />
+	<meta name="Publisher" content="Gaëtan LANGLET" />
+	<meta name="Identifier-Url" content="https://github.com/GaetanLgt" />
+	<meta name="mailto" Reply-To="" content="Gtn.langlet@gmail.com" />
+	<script src="https://unpkg.com/jquery@3.6.0/dist/jquery.js"></script>
+
+
+</head>
+
+
+<body>
+
+	<form action="#">
+		<input id="msg" name="msg" autocomplete="off" /><button type="submit">Envoyer</button>
+	</form>
+	<div id="messages"></div>
+
+	<script src="/socket.io/socket.io.js"></script>
+	<script>
+		$(function () {
+			var socket = io()
+
+			$("form").submit(function (e) {
+				e.preventDefault()
+
+				socket.emit('chat message', $("#msg").val());
+				$("#msg").val("")
+
+				return false
+
+			})
+
+			socket.on("connect", () => {
+				console.log(socket.id) // x8WIv7-mJelg7on_ALbx
+			})
+
+			socket.on('chat message', function (msg) {
+
+				$("#messages").append($("<p>").text(msg))
+
+			})
+
+		})
+	</script>
+</body>
+
+</html>
